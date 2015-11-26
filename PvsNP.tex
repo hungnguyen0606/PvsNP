@@ -66,19 +66,19 @@
 				Một Turing machine được biểu diễn bởi 1 nhóm $M = \langle \Sigma, \Gamma, b, Q, \delta, q_0, F \rangle$\\
 				Trong đó:\\
 				\begin{tabular}{l p{4in}}
-					$Q$& tập hữu hạn, không rỗng gồm các trạng thái.\\
-					$\Gamma$& tập hữu hạn, không rỗng các kí tự trên đĩa(tape).\\
-					$b \in \Gamma$& kí tự trống (blank symbol), là kí tự duy nhất được xuất hiện vô số lần trên tape.\\
-					$\Sigma \subseteq \Gamma \backslash \{b\}$& tập hợp các kí tự input.\\
-					$\delta: (Q \backslash F) \times \Gamma \to Q \times \Gamma \times \{L, R\} $& là một hàm cục bộ (partial function) được gọi là một hàm chuyển (transition), L là dịch trái, R là dịch phải.\\
-					$q_{0} \in Q$& là trạng thái ban đầu.\\
-					$F\subseteq Q$& là tập trạng thái kết thúc hoặc chấp nhật (accepting states). Nội dung 1 tape được xem là chấp nhận bởi turing machine M khi và chỉ khi nó kết thúc với một trạng thái thuộc F. Thông thường F = $\{q_{accept}, q_{reject}\}$.\\
+					$Q$& - tập hữu hạn, không rỗng gồm các trạng thái.\\
+					$\Gamma$& - tập hữu hạn, không rỗng các kí tự trên đĩa(tape).\\
+					$b \in \Gamma$& - kí tự trống (blank symbol), là kí tự duy nhất được xuất hiện vô số lần trên tape.\\
+					$\Sigma \subseteq \Gamma \backslash \{b\}$& - tập hợp các kí tự input.\\
+					$\delta: (Q \backslash F) \times \Gamma \to Q \times \Gamma \times \{L, R\} $& - là một hàm cục bộ (partial function) được gọi là một hàm chuyển (transition), L là dịch trái, R là dịch phải.\\
+					$q_{0} \in Q$& - là trạng thái ban đầu.\\
+					$F\subseteq Q$& - là tập trạng thái kết thúc hoặc chấp nhật (accepting states). Nội dung 1 tape được xem là chấp nhận bởi turing machine M khi và chỉ khi nó kết thúc với một trạng thái thuộc F. Thông thường $F = \{q_{accept}, q_{reject}\}$.\\
 				\end{tabular}  
 				Một cấu hình (configuration) của M được biểu diễn bởi 1 chuỗi $xqy$, trong đó $x, y \in \Gamma^{*}$, và được hiểu là M đang ở trạng thái $q$ với $xy$ trên đĩa (tape), và đầu đọc đang đọc kí tự đầu tiên của y.\\
 				Một bước tính toán (computation - từ đây người viết sẽ sử dụng từ tiếng Anh gốc để bảo toàn nghĩa và làm cho bài viết xúc tích) được hiểu là một dãy các cấu hình $C_0, C_1, C_2, \hdots$, trong đó $C_0 = q_0w$, hoặc $C_0 = q_0b$ nếu $w$ là chuỗi rỗng. Bên cạnh đó $C_i \overset{M}{\to} C_{i+1}$. Khi đó, số bước tính toán bằng số cấu hình trừ 1.\\
-				$\Sigma^*$ là tập các chuỗi tạo bởi các kí tự trong $\Sigma$
+				$\Sigma^*$ là tập các chuỗi tạo bởi các kí tự trong $\Sigma$\\
 				Một ngôn ngữ (Language) ứng với tập kí tự $\Sigma$, gọi là $L$, và $L\subset \Sigma^*$.\\
-				Một chuỗi $w \in L$ được gọi là chấp nhận bởi máy Turing (M), nếu ứng với chuỗi đó thì máy Turing sẽ dừng trong hữu hạn bước ở một trạng thái thuộc $F$.\\
+				Một chuỗi $w \in L$ được gọi là chấp nhận bởi máy Turing (M), nếu ứng với chuỗi đó thì máy Turing sẽ dừng trong hữu hạn bước ở một trạng thái hợp lệ thuộc $F$.\\
 				Gọi $L(M) = \{w, | w \in L,\text{M chấp nhận w} \}$.\\
 				Gọi $t_M(w)$ là số bước máy Turing M chạy (số cấu hình trừ 1) ứng với input w.\\
 				Khi đó $T_M(n) = Max\{t_M(w) | w \in \Sigma^n, n \in N\}$, n là độ dài của input. 
@@ -86,7 +86,10 @@
 				Ta có thể định nghĩa Non-deterministic Turing machine (NTM) tương tự với Deterministic Turing machine (DTM). Điểm khác biệt duy nhất nằm ở $\delta$.\\
 				Nếu ở DTM, thì $\delta$ là một hàm ánh xạ từ một cấu hình của máy Turing sang đúng 1 cấu hình khác hoặc không thể ánh xạ (theo định nghĩa của partial function). thì $\delta$ trong NTM thể hiện một quan hệ giữa 2 trạng thái.\\
 				$\delta: (Q\backslash F \times \Gamma) \times (Q \times \Gamma \times \{L,R\})$\\
-				Nói một cách đơn giản, từ một cấu hình hiện thời của NTM, ta có thể đi tới nhiều cấu hình khác, miễn chúng thỏa quan hệ $\delta$.
+				Nói một cách đơn giản, từ một cấu hình hiện thời của NTM, ta có thể đi tới nhiều cấu hình khác, miễn chúng thỏa quan hệ $\delta$.\\
+				Khi đó một chuỗi $w$ được gọi là chấp nhận bởi một NTM khi và chỉ khi tồn tại một đường đi (có thể có nhiều đường đi do tính chất của NTM) kết thúc với một trạng thái thuộc F.\\
+				Nếu xem mỗi cấu hình trong dãy cấu hình ứng với một input sinh ra bởi Turing machine là một đỉnh của đồ thị, thì đồ thị ứng với DTM là một đường đi đơn, còn ứng với một NTM là một cây mà mỗi nhánh (hoặc đường đi) không nhất thiết là hữu hạn.\\
+				Dựa vào đó ta có thể đưa ra nhận xét, nếu chuỗi w được chấp nhận bởi NTM, thì phải tồn tại một nhánh hữu hạn nút, mà nút lá mang trạng thái hợp lệ. Khi đó, ta định nghĩa $t_M(w)$ là độ dài của nhánh ngắn nhất chấp nhận w. Các định nghĩa khác là tương tự như với DTM.\\ 
 		\subsection{Lớp bài toán P}
 			Nói đơn giản lớp P bao gồm tất cả các bài toán mà tồn tại một thuật toán có thể đưa ra lời giải của nó trong thời gian đa thức.\\
 			Trong đó P có nghĩa: Polynomial time.\\
@@ -97,6 +100,14 @@
 		\subsection{Lớp bài toán NP}
 			Lớp NP bao gồm tất cả các bài toán quyết định mà lời giải của nó có thể kiểm tra được trong thơi gian đa thức.\\
 			Trong đó NP có nghĩa: Non-deterministic Polynomial time.\\
+			Ta có thể đưa ra định nghĩa tương tự như P, chỉ khác duy nhất mọi khái niệm ta dùng đều tương ứng với NTM thay vì DTM.\\
+			Tuy nhiên, ta cũng có thể đưa ra một định nghĩa khác không dựa trên NTM như sau:\\
+			Xét ngôn ngữ $L \subset \Sigma^{*}$.\\
+			$L \subset NP$ khi và chỉ khi tồn tại quan hệ nhị phân $R \subset \Sigma^{*} \times \Sigma^{*}$, và:
+			\begin{itemize}
+				\item $\forall w \in \Sigma^{*}, x \in L \equiv \exists y \in \Sigma^{*}, |y| \in O(|w|^k) (w,y) \in R)$
+				\item Ngôn ngữ $L_R = \{x\#y| (x,y) \in R\}$ trên bộ kí tự $\Sigma^{*} \cup \{\#\}$ được xác định bởi DTM trong thời gian đa thức.
+			\end{itemize}
 			Ví dụ: 
 			\begin{description}
 				\item[Bài toán tổng con] cho một dãy số, hay tìm một dãy con có tổng bằng 0. Ta có thể kiểm tra kết quả bài toán bằng một vòng lặp nhưng để tìm ra được kết quả thì vô cùng khó khăn ngoại trừ cách duyệt hết tất cả, $2^N$, tập con.
