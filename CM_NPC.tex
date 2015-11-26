@@ -1,0 +1,17 @@
+Nhìn vào biểu đồ trên, ta nhận thấy rằng lớp P và NP-Complete hoặc bằng nhau hoặc tách rời nhau chứ không có trường hợp giao nhau.\\
+	Nói cách khác:
+	\begin{equation}\label{Eq: 1}
+		P = NPC \Leftrightarrow P \cap NPC \neq \varnothing
+	\end{equation}
+	Chiều thuận của \ref{Eq: 1} là hiển nhiên. Ta chỉ cần chứng minh chiều ngược lại.\\
+	Giả sử: $P \cap NPC \neq \varnothing$
+	\begin{align*}
+		\Rightarrow \exists A \in NPC,~ A \in P
+	\end{align*}
+	Khi đó, $\forall B_{i} \in NP - {A}, \exists \leq^{P}_{i}$
+	\begin{align*}\label{Eq: 2}
+		&B_{i} \leq^{P}_{i} A\\
+		&\Rightarrow \forall A \in Np,~ A \in P
+		&\Rightarrow P = NP
+	\end{align*}
+	Khi đó, mọi bài toán trong NP đều có 
