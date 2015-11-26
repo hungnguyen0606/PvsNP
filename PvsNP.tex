@@ -72,14 +72,28 @@
 					$\Sigma \subseteq \Gamma \backslash \{b\}$& tập hợp các kí tự input.\\
 					$\delta: (Q \backslash F) \times \Gamma \to Q \times \Gamma \times \{L, R\} $& là một hàm cục bộ (partial function) được gọi là một hàm chuyển (transition), L là dịch trái, R là dịch phải.\\
 					$q_{0} \in Q$& là trạng thái ban đầu.\\
-					$F\subseteq Q$& là tập trạng thái kết thúc hoặc chấp nhật (accepting states). Nội dung 1 tape được xem là chấp nhận bởi turing machine M khi và chỉ khi nó kết thúc với một trạng thái thuộc F.
+					$F\subseteq Q$& là tập trạng thái kết thúc hoặc chấp nhật (accepting states). Nội dung 1 tape được xem là chấp nhận bởi turing machine M khi và chỉ khi nó kết thúc với một trạng thái thuộc F. Thông thường F = $\{q_{accept}, q_{reject}\}$.\\
 				\end{tabular}  
-				Một cấu hình (configuration) của M được biểu diễn bởi 1 chuỗi $xqy$, trong đó $x, y \in \Gamma^{*}$, và được hiểu là M đang ở trạng thái $q$ với $xy$ trên đĩa (tape), và đầu đọc đang đọc kí tự đầu tiên của y.
+				Một cấu hình (configuration) của M được biểu diễn bởi 1 chuỗi $xqy$, trong đó $x, y \in \Gamma^{*}$, và được hiểu là M đang ở trạng thái $q$ với $xy$ trên đĩa (tape), và đầu đọc đang đọc kí tự đầu tiên của y.\\
+				Một bước tính toán (computation - từ đây người viết sẽ sử dụng từ tiếng Anh gốc để bảo toàn nghĩa và làm cho bài viết xúc tích) được hiểu là một dãy các cấu hình $C_0, C_1, C_2, \hdots$, trong đó $C_0 = q_0w$, hoặc $C_0 = q_0b$ nếu $w$ là chuỗi rỗng. Bên cạnh đó $C_i \overset{M}{\to} C_{i+1}$. Khi đó, số bước tính toán bằng số cấu hình trừ 1.\\
+				$\Sigma^*$ là tập các chuỗi tạo bởi các kí tự trong $\Sigma$
+				Một ngôn ngữ (Language) ứng với tập kí tự $\Sigma$, gọi là $L$, và $L\subset \Sigma^*$.\\
+				Một chuỗi $w \in L$ được gọi là chấp nhận bởi máy Turing (M), nếu ứng với chuỗi đó thì máy Turing sẽ dừng trong hữu hạn bước ở một trạng thái thuộc $F$.\\
+				Gọi $L(M) = \{w, | w \in L,\text{M chấp nhận w} \}$.\\
+				Gọi $t_M(w)$ là số bước máy Turing M chạy (số cấu hình trừ 1) ứng với input w.\\
+				Khi đó $T_M(n) = Max\{t_M(w) | w \in \Sigma^n, n \in N\}$, n là độ dài của input. 
 			\subsubsection{Non-deterministic Turing machine}
+				Ta có thể định nghĩa Non-deterministic Turing machine (NTM) tương tự với Deterministic Turing machine (DTM). Điểm khác biệt duy nhất nằm ở $\delta$.\\
+				Nếu ở DTM, thì $\delta$ là một hàm ánh xạ từ một cấu hình của máy Turing sang đúng 1 cấu hình khác hoặc không thể ánh xạ (theo định nghĩa của partial function). thì $\delta$ trong NTM thể hiện một quan hệ giữa 2 trạng thái.\\
+				$\delta: (Q\backslash F \times \Gamma) \times (Q \times \Gamma \times \{L,R\})$\\
+				Nói một cách đơn giản, từ một cấu hình hiện thời của NTM, ta có thể đi tới nhiều cấu hình khác, miễn chúng thỏa quan hệ $\delta$.
 		\subsection{Lớp bài toán P}
-			Lớp P bao gồm tất cả các bài toán mà tồn tại một thuật toán có thể đưa ra lời giải của nó trong thời gian đa thức.\\
+			Nói đơn giản lớp P bao gồm tất cả các bài toán mà tồn tại một thuật toán có thể đưa ra lời giải của nó trong thời gian đa thức.\\
 			Trong đó P có nghĩa: Polynomial time.\\
 			Ví dụ: tìm số lớn nhất trong dãy số nguyên, cộng 2 số nguyên lớn.
+			
+			Dựa trên định nghĩa về Deterministic Turing machine ở trên, ta có thể biểu diễn lại như sau.
+			$P = \{L| L \in L(M), \forall w \in L, T_M(|w|) = w^k + h; k,h \in N\}$
 		\subsection{Lớp bài toán NP}
 			Lớp NP bao gồm tất cả các bài toán quyết định mà lời giải của nó có thể kiểm tra được trong thơi gian đa thức.\\
 			Trong đó NP có nghĩa: Non-deterministic Polynomial time.\\
