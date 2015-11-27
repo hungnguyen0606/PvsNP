@@ -15,7 +15,7 @@
 \begin{document}
 	\input{titlepage}
 	\pagebreak
-	
+
 	\section{Tổng quan}
 		\subsection{Phát biểu bài toán}
 			Bài toán được phát biểu như sau: 
@@ -97,6 +97,11 @@
 			
 			Dựa trên định nghĩa về Deterministic Turing machine ở trên, ta có thể biểu diễn lại như sau.
 			$P = \{L| L \in L(M), \forall w \in L, T_M(|w|) = w^k + h; k,h \in N\}$
+			
+			Ví dụ:\\
+			\begin{description}
+				\item[Bài toán kiểm tra số nguyên tố] Cho một số nguyên không âm, hãy kiểm tra đây có phải là số nguyên tố hay không. Trên thực tế, cho tới trước khi thuật toán AKS ra đời, thì các nhà khoa học vẫn chưa chứng minh được bài toán này thuộc lớp P. Tuy vậy, thuật toán AKS mang ý nghĩa về mặt lý thuyết nhiều hơn (chứng minh rằng bài toán kiểm tra số nguyên tố thuộc lớp P), nhưng trong thực tế thường ít được sử dụng bởi độ phức tạp lớn $\overset{~}{O(log^{12}(n))}$ (với giải thuật nguyên mẫu), và sau này được cải tiến xuống còn $\overset{~}{O(log^{7.5}(n))}$. Trong đó $g(x) = \overset{~}{O(f(x))}$ là viết tắt của $g(x) = O(f(x)log^k(f(x))$. Từ đó ta cũng nhận thấy rằng, các bài toán thuộc lớp P, trong thực tế chưa hẳn đã dễ "giải" hơn các bài toán thuộc lớp NP. Ở đây, ta xem việc "giải" bài toán, là đưa ra một lời giải chấp nhận được. Tuy vậy, vẫn có những bài toán thuộc lớp NP mà ta có thể đề ra các thuật toán có độ phức tạp trung bình rất nhỏ, thậm chí là hằng số.
+			\end{description}
 		\subsection{Lớp bài toán NP}
 			Lớp NP bao gồm tất cả các bài toán quyết định mà lời giải của nó có thể kiểm tra được trong thơi gian đa thức.\\
 			Trong đó NP có nghĩa: Non-deterministic Polynomial time.\\
@@ -106,9 +111,21 @@
 			$L \subset NP$ khi và chỉ khi tồn tại quan hệ nhị phân $R \subset \Sigma^{*} \times \Sigma^{*}$, và:
 			\begin{itemize}
 				\item $\forall w \in \Sigma^{*}, x \in L \equiv \exists y \in \Sigma^{*}, |y| \in O(|w|^k) (w,y) \in R)$
-				\item Ngôn ngữ $L_R = \{x\#y| (x,y) \in R\}$ trên bộ kí tự $\Sigma^{*} \cup \{\#\}$ được xác định bởi DTM trong thời gian đa thức.
+				\item Ngôn ngữ $L_R = \{x\#y| (x,y) \in R\}$ trên bộ kí tự $\Sigma \cup \{\#\}$ được xác định bởi DTM trong thời gian đa thức.
 			\end{itemize}
-			Ví dụ: 
+			Khi đó, y được gọi là certificate của x, và máy Turing xác định $L_R$ là verifier của L.\\
+			\vspace{0.5cm}
+			Để hiểu rõ hơn, ta sẽ phát biểu 1 bài toán thuộc lớp NP theo định nghĩa trên.\\
+			Xét nhóm $Z_N$ và phần tử  $g \in Z_N$. \\
+			$H = \{x | \exists y \in Z_N,~ g^y \equiv x (mod N)\}$\\
+			Xét quan hệ:\\
+			$R = \{x\#y \in (Z_N\times Z_N)| g^y \equiv x (mod N)\}$\\
+			\textbf{Định nghĩa:} $log_g(x) = y$ trên nhóm $Z_N$, nếu  $\exists y \in Z_N,~ g^y \equiv x (mod N)$.\\
+			\textbf{Đặt vấn đề:} Cho $Z_N,~g,~x$, hãy kiểm tra xem $log_g(x)$ có tồn tại hay không.\\
+			\textbf{Nhận xét:} rõ ràng việc $log_g(x)$ tồn tại hay không tương đương với x có thuộc H hay không. Bên cạnh đó nếu xem y là certificate của x, và R là verifier của H, thì ta có chứng minh được $H \in NP$\\
+			\vspace{0.5cm}
+			
+			Một số bài toán nổi tiếng thuộc lớp NP:\\ 
 			\begin{description}
 				\item[Bài toán tổng con] cho một dãy số, hay tìm một dãy con có tổng bằng 0. Ta có thể kiểm tra kết quả bài toán bằng một vòng lặp nhưng để tìm ra được kết quả thì vô cùng khó khăn ngoại trừ cách duyệt hết tất cả, $2^N$, tập con.
 				\item[Bài toán Boolean Satisfiability] \label{EX: NP-C} cho một tập các biểu thức Boolean định nghĩa trên tập biến cho trước, liệu có tồn tại cách gán giá trị TRUE hay FALSE cho từng biến để tất cả các biểu thức đều mang giá trị TRUE hay không? Đây là một bài toán vô cùng quan trọng bởi nó được xem là bài toán thuộc lớp các bài toán khó nhất trong tất cả các bài toán NP. Điều này có nghĩa là nếu giải được bài toán này ta có thể giải được tất cả các bài trong lớp NP sử dụng thuật toán của nó. Hơn thế nữa, tất cả các bài toán trong lớp NP đều có thể rút gọn về bài toán này trong thời gian đa thức. Điều này mang ý nghĩa vô cùng lớn bởi nếu có thể tìm ra thuật toán trong thời gian đa thức cho bài toán này thì ta cũng có thể giải được tất cả các bài toán NP trong thời gian đa thức.
