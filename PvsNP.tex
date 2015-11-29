@@ -1,4 +1,4 @@
-\documentclass[a4paper 14pt]{extarticle}
+\documentclass[a4paper 14pt]{article}
 \usepackage[utf8]{vietnam}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -8,7 +8,8 @@
 \usepackage[document]{ragged2e}
 %for use of addmargin environment
 \usepackage{scrextend}
-
+\usepackage{listings}
+\renewcommand{\baselinestretch}{1.5}
 \usepackage[margin = 1.5in]{geometry}
 \usepackage{graphicx}
 \graphicspath{{images/}}
@@ -90,6 +91,43 @@
 				Khi đó một chuỗi $w$ được gọi là chấp nhận bởi một NTM khi và chỉ khi tồn tại một đường đi (có thể có nhiều đường đi do tính chất của NTM) kết thúc với một trạng thái thuộc F.\\
 				Nếu xem mỗi cấu hình trong dãy cấu hình ứng với một input sinh ra bởi Turing machine là một đỉnh của đồ thị, thì đồ thị ứng với DTM là một đường đi đơn, còn ứng với một NTM là một cây mà mỗi nhánh (hoặc đường đi) không nhất thiết là hữu hạn.\\
 				Dựa vào đó ta có thể đưa ra nhận xét, nếu chuỗi w được chấp nhận bởi NTM, thì phải tồn tại một nhánh hữu hạn nút, mà nút lá mang trạng thái hợp lệ. Khi đó, ta định nghĩa $t_M(w)$ là độ dài của nhánh ngắn nhất chấp nhận w. Các định nghĩa khác là tương tự như với DTM.\\ 
+		\subsection{Phép rút gọn}
+			Trong giới hạn bài viết, ta sẽ đề cập chủ yếu tới 2 phép rút gọn sau:
+			\begin{enumerate}
+				\item Polynomial time reduction
+				\item Many to one reduction
+			\end{enumerate}
+			\subsubsection{Polynomial time reduction}
+				Kí hiệu: $A \leq_P^T B$ (hoặc ngắn gọn $\leq_P$)\\
+				Hiểu đơn giản, ta nói bài $X \leq_P Y$ có nghĩa là ta có thể đưa việc giải bài toán X thành việc giải Y. Nói chính xác, thì bài toán X được rút gọn trong thời gian đa thức thành bài toán Y khi bất kì input nào của X đều được giải bằng cách:\\
+				\begin{itemize}
+					\item Số lần tính toán (computation - chiếu theo định nghĩa Turing machine) là đa thức theo kích thước đầu vào.
+					\item Số lần gọi tới lời giải bài toán Y (hay oracle của Y) là đa thức theo kích thước đầu vào.
+				\end{itemize}
+				Mục đích của phép rút gọn nhằm giúp phân loại bài toán dựa vào độ khó của các bài toán đã biết, dựa vào các tính chất sau:
+				\begin{enumerate}
+					\item Biết $X \leq_P Y$, và Y có thể giải được trong thời gian đa thức thì X cũng có thể giải được trong thời gian đa thức.
+					\item Biết $X \leq_P Y$, và X không thể giải được trong thời gian đa thức thì Y cũng không thể giải được trong thời gian đa thức.
+				\end{enumerate}
+				Để hiểu rõ hơn, ta xét ví dụ sau:\\
+				Xét 2 bài toán:
+				\begin{enumerate}
+					\item\label{checkham} Cho đồ thị G = (V, E), hãy kiểm tra xem đồ thị có chu trình Hamilton hay không.
+					\item\label{findham} Cho đồ thị G = (V, E), hãy tìm ra một chu trình Hamilton.
+				\end{enumerate}
+				Đặt bài toán \ref{checkham} là A, bài toán \ref{findham} là B. Dễ dàng nhận ra $A \leq_P B$. Để kiểm chứng, ta xem xét đoạn mã sau:
+				\lstinputlisting[language = Python, frame = single, numberstyle=\tiny, numbers=left]{Sources/Preduction.py}
+			\subsubsection{Many to one reduction}
+				Kí hiệu $A \leq_m B$\\
+				Gọi A, B là ngôn ngữ trên tập kí tự tương ứng $\Sigma$ và $\Gamma$ và $f: \Sigma^* \to \Gamma^*$ là hàm tính được toàn phần. Với mỗi chuỗi $w \in \Sigma^*$ , thì $w \in A \Leftrightarrow f(w) \in B$, nghĩa là $A = f^{-1}(B)$.\\
+				Bên cạnh đó so với các cách rút gọn khác thì many-to-one reduction ràng buộc về thời gian cũng như không gian khá chặt. Ví dụ, xét bài toán A, B, thuật toán T để giải B và phép rút gọn many-to-one từ A về B. Khi đó thời gian để giải A bằng tổng thời gian của phép rút gọn và thời gian chạy của thuật toán T. Không gian giải A bằng max của không gian giải B và không gian cần thiết cho phép rút gọn.\\
+				Để hiểu rõ hơn, xét ví dụ sau:\\
+				Xét 2 bài toán:
+				\begin{enumerate}
+					\item\label{factor} Cho một số nguyên không âm N, kiểm tra xem N có thể phân tích thành p*q, với $1 < p,q < N$.
+					\item\label{prime} Cho một số nguyên không âm N, kiểm tra xem N có phải là hợp số hay không?
+				\end{enumerate}
+				Gọi F(N) = N là phép biến đổi từ input bài toán \ref{factor} sang input bài toán \ref{prime}. Rõ ràng F(N) là hàm toàn phần, khả tính trên tập số nguyên, và thực hiện được trong thời gian đa thức. Khi đó $N = pq$ với $1 < p,q < N$, khi và chỉ khi F(N) là hợp số.
 		\subsection{Lớp bài toán P}
 			Nói đơn giản lớp P bao gồm tất cả các bài toán mà tồn tại một thuật toán có thể đưa ra lời giải của nó trong thời gian đa thức.\\
 			Trong đó P có nghĩa: Polynomial time.\\
@@ -153,7 +191,7 @@
 				\begin{tabular}{l l}
 				NPC & lớp các bài toán NP-complete.\\
 				Định nghĩa & $A \in NPC \Leftrightarrow A \in NPH \cap NP$\\
-				hoặc & $A \in NPC \Leftrightarrow A \in NP\&~\forall B \in NP,~~B \leq^{P}A$\\
+				hoặc & $A \in NPC \Leftrightarrow A \in NP\&~\forall B \in NP,~~B \leq^{P}_{m}A$\\
 				\end{tabular}
 			\end{addmargin}
 			Ví dụ:
