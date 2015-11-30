@@ -104,6 +104,7 @@
 					\item Số lần tính toán (computation - chiếu theo định nghĩa Turing machine) là đa thức theo kích thước đầu vào.
 					\item Số lần gọi tới lời giải bài toán Y (hay oracle của Y) là đa thức theo kích thước đầu vào.
 				\end{itemize}
+				Nếu như bỏ đi "đa thức" trong 2 điều kiện trên thì ta sẽ được khái niệm của Turing reduction.\\
 				Mục đích của phép rút gọn nhằm giúp phân loại bài toán dựa vào độ khó của các bài toán đã biết, dựa vào các tính chất sau:
 				\begin{enumerate}
 					\item Biết $X \leq_P Y$, và Y có thể giải được trong thời gian đa thức thì X cũng có thể giải được trong thời gian đa thức.
@@ -131,10 +132,8 @@
 		\subsection{Lớp bài toán P}
 			Nói đơn giản lớp P bao gồm tất cả các bài toán mà tồn tại một thuật toán có thể đưa ra lời giải của nó trong thời gian đa thức.\\
 			Trong đó P có nghĩa: Polynomial time.\\
-			Ví dụ: tìm số lớn nhất trong dãy số nguyên, cộng 2 số nguyên lớn.
-			
-			Dựa trên định nghĩa về Deterministic Turing machine ở trên, ta có thể biểu diễn lại như sau.
-			$P = \{L| L \in L(M), \forall w \in L, T_M(|w|) = w^k + h; k,h \in N\}$
+			Bên cạnh đó, nếu dựa trên định nghĩa về Deterministic Turing machine ở trên, ta có thể biểu diễn lại như sau.
+			$P = \{L| L \in L(M), \forall w \in L, T_M(|w|) = w^k + h; k,h \in N\}$\\		
 			
 			Ví dụ:\\
 			\begin{description}
