@@ -13,9 +13,17 @@
 \usepackage[margin = 1.5in]{geometry}
 \usepackage{graphicx}
 \graphicspath{{images/}}
+
+\usepackage{lipsum}       % for sample text
+\usepackage{changepage}   % for the adjustwidth environment
+
 \begin{document}
 	\input{titlepage}
 	\pagebreak
+	\thispagestyle{empty}
+	\tableofcontents
+	\pagebreak
+	\pagenumbering{arabic}
 
 	\section{Tổng quan}
 		\subsection{Phát biểu bài toán}
@@ -50,7 +58,27 @@
 				\end{itemize}
 			\subsubsection{P $\neq$ NP}
 				Khi  P $\neq$ NP, chúng ta sẽ phải chấp nhận thế giới đầy những vấn đề không giải quyết được. Tuy vậy, con người cũng sẽ định hướng được cho việc giải quyết vấn đề, giả sử, nếu xác định được bài toán thuộc dạng NP. Khi đó, thay vì tập trung nguồn lực giải quyết trường hợp chung cho bài toán, ta sẽ tập trung giải quyết từng trường hợp đơn lẻ, cụ thể. Đó là việc vô cùng tích cực bởi trong thực tế, với lượng thông tin và các điều kiện thu thập được, thì bài toán dễ hơn rất nhiều, và cùng với việc năng lực tính toán của máy tính ngày càng cao thì ta cũng có thể giải được các bài toán khó với một quy mô khá lớn phù hợp với thực tế.\\
-				
+		\subsection{Khảo sát}
+			Sau đây là 1 khảo sát thực hiện bởi  William Gasarch\footnotemark trong cộng đồng các nhà khoa học trong lĩnh vực Computer Science gồm nhiều tên tuổi lớn, trong đó có Donald Knuth. \cite{Poll}
+			\footnotetext{Dept. of Computer Science, University of Maryland, College Park}
+			\begin{table}[H]
+				\begin{tabular}{|c|c|c|c|}
+					\hline
+					Year & $P \neq NP$ & $P = NP$ & Others opinions\\ \hline
+					2002 & 61 (61\%) & 9 (9\%) & 30 (30\%)\\ \hline
+					2012 & 126 (83\%) & 12 (9\%) & 13 (8\%)\\ \hline
+				\end{tabular}
+			\end{table}	
+			Dựa vào bảng khảo sát trên ta thấy đa số trong cộng đồng khoa học cho rằng $P \neq NP$. Chính điều này cũng dẫn đến việc có rất nhiều nghiên cứu tập trung chứng minh $P \neq NP$, tuy vậy tất cả đều thất bại.\\
+			Bên cạnh đó, bài khảo sát này cũng đề xuất các phương pháp có thể được dùng để giải bài toán \textbf{P vs NP}.
+			\begin{enumerate}
+				\item Combinatorics - Complexity
+				\item Logic
+				\item Math
+				\item Misc (miscellaneous) sử dụng nhiều kĩ thuật khác nhau kết hợp.
+				\item New (các kĩ thuật mới)
+			\end{enumerate}
+			Ngoài ra trong bài khảo sát này còn đề cập tới nhiều vấn đề khác như thời gian dự kiến giải được và các nhận xét của các giáo sư trong lĩnh vực khoa học máy tính (chủ yếu) về vấn đề này.
 	\section{Định nghĩa}
 		\subsection{Turing machine}
 			Do các lớp bài toán được định nghĩa dựa trên nền tảng của Turing machine nên ta sẽ đề cập về khái niệm này đầu tiên.\\
@@ -64,7 +92,7 @@
 			\end{itemize}
 			Tuy vậy, trong giới hạn bài viết ta chỉ đề cập cụ thể tới 2 loại máy đầu tiên, do chúng có liên quan mật thiết đến các lớp bài toán phía sau.
 			\subsubsection{Deterministic Turing machine}
-				Một Turing machine được biểu diễn bởi 1 nhóm $M = \langle \Sigma, \Gamma, b, Q, \delta, q_0, F \rangle$\\
+				Một Turing machine \footnote{Được đề xuất bởi Alan Turing năm 1936} được biểu diễn bởi 1 nhóm $M = \langle \Sigma, \Gamma, b, Q, \delta, q_0, F \rangle$\\
 				Trong đó:\\
 				\begin{tabular}{l p{4in}}
 					$Q$& - tập hữu hạn, không rỗng gồm các trạng thái.\\
@@ -110,7 +138,8 @@
 					\item Biết $X \leq_P Y$, và Y có thể giải được trong thời gian đa thức thì X cũng có thể giải được trong thời gian đa thức.
 					\item Biết $X \leq_P Y$, và X không thể giải được trong thời gian đa thức thì Y cũng không thể giải được trong thời gian đa thức.
 				\end{enumerate}
-				Để hiểu rõ hơn, ta xét ví dụ sau:\\
+				
+				\textbf{Ví dụ:}
 				Xét 2 bài toán:
 				\begin{enumerate}
 					\item\label{checkham} Cho đồ thị G = (V, E), hãy kiểm tra xem đồ thị có chu trình Hamilton hay không.
@@ -118,11 +147,16 @@
 				\end{enumerate}
 				Đặt bài toán \ref{checkham} là A, bài toán \ref{findham} là B. Dễ dàng nhận ra $A \leq_P B$. Để kiểm chứng, ta xem xét đoạn mã sau:
 				\lstinputlisting[language = Python, frame = single, numberstyle=\tiny, numbers=left]{Sources/Preduction.py}
+				Đoạn mã nguồn thể hiện phép rút gọn từ bài toán \ref{checkham} về bài toán \ref{findham}. Trong đó:
+				\begin{enumerate} 
+					\item Số phép tính toán là đa thức theo kích thước đầu vào $O(1)$ (chỉ bao gồm 1 cặp lệnh if, else).
+					\item Số lần gọi tới hàm tìm kiếm chu trình hamilton cũng là đa thức theo kích thước đầu vào $O(1)$ (gọi 1 lần duy nhất ở phần kiểm tra điều kiện trong if).
+				\end{enumerate}
 			\subsubsection{Many to one reduction}
 				Kí hiệu $A \leq_m B$\\
 				Gọi A, B là ngôn ngữ trên tập kí tự tương ứng $\Sigma$ và $\Gamma$ và $f: \Sigma^* \to \Gamma^*$ là hàm tính được toàn phần. Với mỗi chuỗi $w \in \Sigma^*$ , thì $w \in A \Leftrightarrow f(w) \in B$, nghĩa là $A = f^{-1}(B)$.\\
 				Bên cạnh đó so với các cách rút gọn khác thì many-to-one reduction ràng buộc về thời gian cũng như không gian khá chặt. Ví dụ, xét bài toán A, B, thuật toán T để giải B và phép rút gọn many-to-one từ A về B. Khi đó thời gian để giải A bằng tổng thời gian của phép rút gọn và thời gian chạy của thuật toán T. Không gian giải A bằng max của không gian giải B và không gian cần thiết cho phép rút gọn.\\
-				Để hiểu rõ hơn, xét ví dụ sau:\\
+				\textbf{Ví dụ:}\\
 				Xét 2 bài toán:
 				\begin{enumerate}
 					\item\label{factor} Cho một số nguyên không âm N, kiểm tra xem N có thể phân tích thành p*q, với $1 < p,q < N$.
@@ -135,7 +169,7 @@
 			Bên cạnh đó, nếu dựa trên định nghĩa về Deterministic Turing machine ở trên, ta có thể biểu diễn lại như sau.
 			$P = \{L| L \in L(M), \forall w \in L, T_M(|w|) = w^k + h; k,h \in N\}$\\		
 			
-			Ví dụ:\\
+			\textbf{Ví dụ:}
 			\begin{description}
 				\item[Bài toán kiểm tra số nguyên tố] Cho một số nguyên không âm, hãy kiểm tra đây có phải là số nguyên tố hay không. Trên thực tế, cho tới trước khi thuật toán AKS ra đời, thì các nhà khoa học vẫn chưa chứng minh được bài toán này thuộc lớp P. Tuy vậy, thuật toán AKS mang ý nghĩa về mặt lý thuyết nhiều hơn (chứng minh rằng bài toán kiểm tra số nguyên tố thuộc lớp P), nhưng trong thực tế thường ít được sử dụng bởi độ phức tạp lớn $\overset{~}{O(log^{12}(n))}$ (với giải thuật nguyên mẫu), và sau này được cải tiến xuống còn $\overset{~}{O(log^{7.5}(n))}$. Trong đó $g(x) = \overset{~}{O(f(x))}$ là viết tắt của $g(x) = O(f(x)log^k(f(x))$. Từ đó ta cũng nhận thấy rằng, các bài toán thuộc lớp P, trong thực tế chưa hẳn đã dễ "giải" hơn các bài toán thuộc lớp NP. Ở đây, ta xem việc "giải" bài toán, là đưa ra một lời giải chấp nhận được. Tuy vậy, vẫn có những bài toán thuộc lớp NP mà ta có thể đề ra các thuật toán có độ phức tạp trung bình rất nhỏ, thậm chí là hằng số.
 			\end{description}
@@ -152,14 +186,19 @@
 			\end{itemize}
 			Khi đó, y được gọi là certificate của x, và máy Turing xác định $L_R$ là verifier của L.\\
 			\vspace{0.5cm}
-			Để hiểu rõ hơn, ta sẽ phát biểu 1 bài toán thuộc lớp NP theo định nghĩa trên.\\
-			Xét nhóm $Z_N$ và phần tử  $g \in Z_N$. \\
-			$H = \{x | \exists y \in Z_N,~ g^y \equiv x (mod N)\}$\\
-			Xét quan hệ:\\
-			$R = \{x\#y \in (Z_N\times Z_N)| g^y \equiv x (mod N)\}$\\
+			\textbf{Ví dụ:}
+			Ta sẽ phát biểu 1 bài toán thuộc lớp NP theo định nghĩa trên.\\
+			\begin{adjustwidth}{1cm}{}
+				Xét nhóm $Z_N$ và phần tử  $g \in Z_N$. \\
+				$H = \{x | \exists y \in Z_N,~ g^y \equiv x (mod N)\}$\\
+				Xét quan hệ:\\
+				$R = \{x\#y \in (Z_N\times Z_N)| g^y \equiv x (mod N)\}$\\
+			
+			\end{adjustwidth}
 			\textbf{Định nghĩa:} $log_g(x) = y$ trên nhóm $Z_N$, nếu  $\exists y \in Z_N,~ g^y \equiv x (mod N)$.\\
 			\textbf{Đặt vấn đề:} Cho $Z_N,~g,~x$, hãy kiểm tra xem $log_g(x)$ có tồn tại hay không.\\
 			\textbf{Nhận xét:} rõ ràng việc $log_g(x)$ tồn tại hay không tương đương với x có thuộc H hay không. Bên cạnh đó nếu xem y là certificate của x, và R là verifier của H, thì ta có chứng minh được $H \in NP$\\
+			
 			\vspace{0.5cm}
 			
 			Một số bài toán nổi tiếng thuộc lớp NP:\\ 
@@ -176,10 +215,10 @@
 				NPH& lớp các bài toán NP-hard.\\
 				NP& lớp các bài toán NP.\\
 				$\leq^{P}:$& phép rút gọn trong thời gian đa thức. (ta sẽ đề cập tới định nghĩa của phép tính này sau)\\
-				Định nghĩa&$A \in NPH \Leftrightarrow \forall B \in NP,~ B \leq^{P} A$
+				\textbf{Định nghĩa}&$A \in NPH \Leftrightarrow \forall B \in NP,~ B \leq^{P} A$
 				\end{tabular}
 			\end{addmargin}
-			Ví dụ:
+			\textbf{Ví dụ:}
 			\begin{description}
 				\item[Bài toán Knapsack]  Cho một túi sách với trọng lượng tối đa W. N đồ vật với trọng lượng $w_{i}$ và giá trị $v_{i}$. Hãy tìm tập con các đồ vật để bỏ vào túi sao cho tổng giá trị là lớn nhất có thể và tổng trọng lượng không vượt quá W.
 			\end{description}
@@ -189,11 +228,11 @@
 			\begin{addmargin}{0.5in}
 				\begin{tabular}{l l}
 				NPC & lớp các bài toán NP-complete.\\
-				Định nghĩa & $A \in NPC \Leftrightarrow A \in NPH \cap NP$\\
+				\textbf{Định nghĩa} & $A \in NPC \Leftrightarrow A \in NPH \cap NP$\\
 				hoặc & $A \in NPC \Leftrightarrow A \in NP\&~\forall B \in NP,~~B \leq^{P}_{m}A$\\
 				\end{tabular}
 			\end{addmargin}
-			Ví dụ:
+			\textbf{Ví dụ:}
 			\begin{description}
 				\item[Bài toán Knapsack - phiên bản bài toán quyết đinh]  Cho một túi sách với trọng lượng tối đa W. N đồ vật với trọng lượng $w_{i}$ và giá trị $v_{i}$. Hỏi có thể bỏ các đồ vật vào túi sao cho tổng giá trị tối thiểu là V và trọng lượng không vượt quá W.
 				\item[Bài toán Boolean Satisfiability] bài toán này phát biểu tương tự như ở ví dụ phần \ref{EX: NP-C}.
@@ -215,4 +254,15 @@
 	
 	\section{Tạm kết}
 	Dù có giải được bài toán P vs NP hay không thì những ý nghĩa mà nó mang lại cho thế giới là vô cùng lớn. Bởi trong quá trình tìm hiểu, đề xuất, và xây dựng phương pháp để giải quyết bài toán này thì thế giới đã làm giàu thêm kho tàng kiến thức của mình đồng thời giúp cho chúng ta có cái nhìn sâu sắc hơn trong lĩnh vực phân tích độ phức tạp thuật toán.
+	
+	\begin{thebibliography}{9}
+		\bibitem{PvsNP}
+		Stephen Cook, \emph{P vs NP problem}, April 2000, Manuscript prepared for the Clay Mathematics Institute for the Millennium Prize Problems (revised November, 2000).
+		\bibitem{PolynomialTimeReduction}
+		Kevin Wayne, \emph{Polynomial-time Reductions}, Lecture of Princeton University.
+		\bibitem{History}
+		Lance Fortnow, \emph{The Status of the P Versus NP Problem}, Communications of the ACM, Vol. 52 No. 9, Pages 78-86.
+		\bibitem{Poll}
+		Lane A. Hemaspaandra, \emph{SIGACT News Complexity Theory Column 74}
+	\end{thebibliography}
 \end{document}
